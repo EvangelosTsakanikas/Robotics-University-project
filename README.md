@@ -4,6 +4,6 @@ Contains :
 - Forward Kinematics  
 - Inverse Kinematics  
 - Forward Differential Kinematics  
-Inverse Differential Kinematics  
-Trajectory planning  
-Script that show the result in a plot
+- Inverse Differential Kinematics  
+- Trajectory planning  
+- Script that show the result in a plot
