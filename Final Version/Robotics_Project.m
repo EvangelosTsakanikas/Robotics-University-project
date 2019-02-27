@@ -16,7 +16,7 @@ option = input(['Press 1 to solve the Inverse Kinematics problem or \n'...
                 'Press 2 to solve the Forward Kinematics problem or \n'...
                 'Press 3 to solve the Inverse Differential Kinematics problem or \n'...
                 'Press 4 to solve the Differential Kinematics problem or \n'...
-                'Press 5 to construct platform\`s orbit \n: ']);
+                'Press 5 to construct platform\`s trajectory \n: ']);
 
 while (option ~= 0)
     
@@ -127,42 +127,42 @@ while (option ~= 0)
         end
     end
     
-    %%%%% Orbit
+    %%%%% trajectory
     if (option == 5)
         
         questionToTheUser = input(['Press 1 for trajectory planning or \n'...
                                    'Press !=1 to load default trajectory \n: ']);                                     
-        orbit = [];
+        trajectory = [];
         Velocity = [];
         if (questionToTheUser == 1) % trajectory planning
             
-            numberOfOrbitPoints = input('Give the nubmer of Orbit points: ');
+            numberOftrajectoryPoints = input('Give the nubmer of trajectory points: ');
                
-            for i=1:numberOfOrbitPoints
+            for i=1:numberOftrajectoryPoints
                 fprintf('point %d \n', i);
-                P_x = input('Give the x coordinate of the platform\`s orbit point (P_x): ');
-                P_y = input('Give the y coordinate of the platform\`s orbit point (P_y): ');
-                P_z = input('Give the z coordinate of the platform\`s orbit point (P_z): ');
+                P_x = input('Give the x coordinate of the platform\`s trajectory point (P_x): ');
+                P_y = input('Give the y coordinate of the platform\`s trajectory point (P_y): ');
+                P_z = input('Give the z coordinate of the platform\`s trajectory point (P_z): ');
                 fprintf('\n');
                 P = [P_x P_y P_z];
-                orbit = cat(1, orbit, P);
+                trajectory = cat(1, trajectory, P);
                 
-                if (numberOfOrbitPoints > 2)
+                if (numberOftrajectoryPoints > 2)
                     fprintf('point %d \n', i);
-                    V_x = input('Give the velocity on (x-axis) of this platform\`s orbit point (V_x): '); 
-                    V_y = input('Give the velocity on (y-axis) of this platform\`s orbit point (V_y): ');
-                    V_z = input('Give the velocity on (z-axis) of this platform\`s orbit point (V_z): ');
+                    V_x = input('Give the velocity on (x-axis) of this platform\`s trajectory point (V_x): '); 
+                    V_y = input('Give the velocity on (y-axis) of this platform\`s trajectory point (V_y): ');
+                    V_z = input('Give the velocity on (z-axis) of this platform\`s trajectory point (V_z): ');
                     fprintf('\n');
                     V = [V_x V_y V_z];
                     Velocity = cat(1, Velocity, V);
                 end               
             end  
-            orbit = transpose(orbit);
+            trajectory = transpose(trajectory);
             Velocity = transpose(Velocity);
             tf = input('Give tf: '); 
             
         else % default 
-            orbit = [0 1 -2 0
+            trajectory = [0 1 -2 0
                      0 1 -1 0
                      1 2  2 1];
  
@@ -173,18 +173,18 @@ while (option ~= 0)
         end
         
         pointsThatCanBeReached = 0;
-        for j=1:size(orbit, 2)
+        for j=1:size(trajectory, 2)
             
             inverseKinematics_solution = InverseKinematics(legsPositions_base,...
                                                            legsPositions_platform,...
-                                                           orbit(:, j));
+                                                           trajectory(:, j));
             if (CheckLegLength(inverseKinematics_solution) == 1)
                pointsThatCanBeReached = pointsThatCanBeReached + 1;
             end            
         end
         
-        if (pointsThatCanBeReached == size(orbit, 2))
-            PlatformOrbitCalculation(orbit, tf,...
+        if (pointsThatCanBeReached == size(trajectory, 2))
+            PlatformTrajectoryCalculation(trajectory, tf,...
                                      Velocity,...
                                      legsPositions_base,...
                                      legsPositions_platform);
@@ -197,7 +197,7 @@ while (option ~= 0)
                         'Press 2 to solve the Forward Kinematics problem or \n'...
                         'Press 3 to solve the Inverse Differential Kinematics problem or \n'...
                         'Press 4 to solve the Differential Kinematics problem or \n'...
-                        'Press 5 to construct platform\`s orbit \n: ']);
+                        'Press 5 to construct platform\`s trajectory \n: ']);
                     
     if (option > 5 || option < 0)
         break;
